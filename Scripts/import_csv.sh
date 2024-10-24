@@ -10,6 +10,12 @@ DB_NAME="dolibarr"
 CLIENTS_CSV="./clients.csv"
 FOURNISSEURS_CSV="./fournisseurs.csv"
 
+# Si jamais vous vous mettre vos clients et fournisseurs dans la même TABLE
+# il faut definir alors des types d'identités
+# Pour cela :
+# SET type = 'client';  # Définit le type comme 'client'
+# SET type = 'fournisseur';  # Définit le type comme 'fournisseur'
+
 # Importation des clients
 if [ -f "$CLIENTS_CSV" ]; then
     echo "Importation des clients à partir de $CLIENTS_CSV..."

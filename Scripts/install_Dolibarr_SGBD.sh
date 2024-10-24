@@ -24,6 +24,9 @@ fi
 if ! command -v docker-compose &> /dev/null; then
     echo "Docker Compose n'est pas installé. Installation de Docker Compose..."
     apt-get install -y docker-compose
+    groupadd docker
+    usermod -aG docker $USER
+    newgrp docker
 fi
 
 # Installation de Docker

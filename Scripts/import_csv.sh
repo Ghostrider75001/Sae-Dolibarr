@@ -19,7 +19,7 @@ if [ -f "$CLIENTS_CSV" ]; then
     FIELDS TERMINATED BY ','
     LINES TERMINATED BY '\n'
     IGNORE 1 ROWS
-    (nom, email, telephone);
+    (nom, email, telephone)
     "
 else
     echo "Fichier $CLIENTS_CSV non trouvé. Veuiller le déplacer dans le même repertoire du script ou en crée un avec un format (nom, email, telephone)"

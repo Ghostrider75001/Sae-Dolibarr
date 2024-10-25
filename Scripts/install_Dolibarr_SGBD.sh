@@ -43,8 +43,8 @@ version: '3.8'
 
 services:
   database:
+    container_name: database
     image: mysql:latest
-    restart: no
     environment:
       MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
       MYSQL_DATABASE: $DB_NAME
@@ -54,8 +54,8 @@ services:
       - db_data:/var/lib/mysql
 
   dolibarr:
+    container_name: dolibarr
     image: dolibarr/dolibarr:$DOLIBARR_VERSION
-    restart: no
     ports:
       - "8080:80"
     environment:

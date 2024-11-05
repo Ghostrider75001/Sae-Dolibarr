@@ -43,3 +43,13 @@ Test de differente méthode d'export de la BDD et d'import automatisable (au tra
 
 * A faire à la prochaine séance
 - Creer un seul script pour installer la solution et y ajouter les données avec docker-compose
+
+## Séance 5
+04 Nov - 14h30-17h30
+Travail effectué
+```
+Création du script "backup.sh" (partie exportation) et sa documentation en markdown
+```
+
+* A faire à la prochaine séance
+- Amélioration ou creation d'un autre script pour l'importation

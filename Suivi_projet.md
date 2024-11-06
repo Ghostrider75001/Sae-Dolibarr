@@ -48,8 +48,39 @@ Test de differente méthode d'export de la BDD et d'import automatisable (au tra
 04 Nov - 14h30-17h30
 Travail effectué
 ```
-Création du script "backup.sh" (partie exportation) et sa documentation en markdown
+Création du script "backup.sh" (partie exportation) et sa documentation en markdown + creation script importation des tables
 ```
 
 * A faire à la prochaine séance
 - Amélioration ou creation d'un autre script pour l'importation
+
+## Séance 6
+04 Nov - 14h30-17h30
+Travail effectué
+```
+Création du script "restore.sh" (partie importation) et sa documentation en markdown + génération de données fictifs
+```
+
+* A faire à la prochaine séance
+- Amélioration des scripts et se documenter sur comment on pourra faire les conversions sql to csv.
+
+
+## Séance 7
+04 Nov - 14h30-17h30
+Travail effectué
+```
+Amélioration des scripts et se documenter sur comment on pourra faire les conversions sql to csv.
+```
+
+* A faire à la prochaine séance
+- Debug et tests
+
+## Séance 8
+04 Nov - 16h00-17h30
+Travail effectué
+```
+Debug et tests des différents scripts et leur bon fonctionnement
+```
+
+* A faire à la prochaine séance
+- ....

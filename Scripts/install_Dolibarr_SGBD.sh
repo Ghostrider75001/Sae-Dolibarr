@@ -5,7 +5,7 @@ DB_ROOT_PASSWORD="root"
 DB_NAME="dolibarr"
 DB_USER="dolibarr_user"
 DB_PASSWORD="root"
-DOLIBARR_VERSION="18.0.2" # Remplacez par la dernière version stable si nécessaire
+DOLIBARR_VERSION="latest" # Remplacez par la dernière version stable si nécessaire
 DOCKER_COMPOSE_FILE="docker-compose.yml"
 
 # Mise à jour du système
@@ -21,9 +21,9 @@ if ! command -v docker &> /dev/null; then
 fi
 
 # Vérifie si Docker Compose est installé
-if ! command -v docker-compose &> /dev/null; then
+if ! command -v docker compose &> /dev/null; then
     echo "Docker Compose n'est pas installé. Installation de Docker Compose..."
-    apt-get install -y docker-compose
+    apt-get install -y docker compose
     groupadd docker
     usermod -aG docker $USER
     newgrp docker
@@ -43,21 +43,25 @@ version: '3.8'
 
 services:
   database:
-    container_name: database
     image: mysql:latest
+    networks:
+      - dolibarr_network
     environment:
       MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
       MYSQL_DATABASE: $DB_NAME
       MYSQL_USER: $DB_USER
       MYSQL_PASSWORD: $DB_PASSWORD
     volumes:
-      - db_data:/var/lib/mysql
+      - database_data:/var/lib/mysql
 
   dolibarr:
-    container_name: dolibarr
     image: dolibarr/dolibarr:$DOLIBARR_VERSION
+    networks:
+      - dolibarr_network
     ports:
       - "8080:80"
+    depends_on:
+      - database
     environment:
       DB_HOST: database
       DB_NAME: $DB_NAME
@@ -66,18 +70,22 @@ services:
     volumes:
       - dolibarr_data:/var/www/html
 
+networks:
+  dolibarr_network:
+    driver: bridge
+
 volumes:
-  db_data:
+  database_data:
   dolibarr_data:
 EOL
 
 # Lancement de Docker Compose
 echo "Démarrage de l'application Dolibarr..."
-docker-compose up -d
+docker compose up -d
 
 # Vérification du statut des conteneurs
 echo "Vérification du statut des conteneurs..."
-docker-compose ps
+docker compose ps
 
 echo "Installation de Dolibarr et du SGBD terminée."
 echo "Dolibarr est accessible à l'adresse http://localhost:8080"

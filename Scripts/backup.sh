@@ -5,7 +5,7 @@ DB_CONTAINER_NAME="mariadb"
 DB_USER="dolidbuser"
 DB_PASSWORD="dolidbpass"
 DB_NAME="dolidb"
-HOST_DUMP_DIR="."
+HOST_DUMP_DIR="./backup"
 DUMP_FILE="${DB_NAME}_$(date +%F).sql"
 
 # Cree le dossier si il n'existe pas

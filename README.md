@@ -1,18 +1,19 @@
-# Projet ERP/CRM avec Dolibarr
+# ERP/CRM Project with Dolibarr
 
 ## Introduction
-Ce projet consiste à migrer d'une solution ERP/CRM externalisée vers une solution hébergée en interne basée sur le progiciel Dolibarr. Le but est de mettre en place un Dolibarr fonctionnel sur un serveur dédié dans l'entreprise en automatisant l'installation, l'import des données et en assurant la sauvegarde des données.
+This project involves migrating from an outsourced ERP/CRM solution to an internally hosted solution based on the Dolibarr software package. The objective is to establish a functional Dolibarr instance on a dedicated server within the company by automating the installation, data import, and ensuring data backup.
 
-## Cahier des charges
-- Automatiser l'installation de Dolibarr et du SGBD via un script `install.sh`.
-- Automatiser l'import des données exportées via un script `import_csv.sh`.
-- Dockeriser l'installation pour faciliter le déploiement.
-- Assurer une procédure de sauvegarde complète pour permettre une reprise après incident.
+## Specifications 
+- Automate the installation of Dolibarr and the DBMS via an `install.sh` script.
+- Automate the import of exported data via an `import_csv.sh` script.
+- Dockerize the installation for easier deployment.
+- Ensure a complete backup procedure to allow recovery after an incident.
 
-## Étapes du projet
-1. Découverte de Dolibarr avec installation simple sur une VM Debian.
-2. Importation des données existantes en utilisant les fonctionnalités intégrées à Dolibarr ou en manipulant directement le SGBD.
-3. Dockerisation de l'installation en créant des Dockerfiles pour Dolibarr et le SGBD.
+## Project steps 
+1. Discovery of Dolibarr with simple installation on a Debian VM.
+2. Importing existing data using the functionalities integrated into Dolibarr or by directly manipulating the DBMS.
+3. Dockerization of the installation by creating Dockerfiles for Dolibarr and the DBMS.
+
 
 ## Ressources
 - [Wiki Dolibarr](https://wiki.dolibarr.org/)
@@ -21,19 +22,12 @@ Ce projet consiste à migrer d'une solution ERP/CRM externalisée vers une solut
 
 ---
 
-Ce fichier README.md contient les informations essentielles concernant le projet d'installation d'un ERP/CRM avec Dolibarr.
+This README.md file contains essential information regarding the ERP/CRM installation project with Dolibarr. 
 
-## Mise en place
-
-Nous avons réaliser un travail de recherche sur l'image docker de dolibarrr que l'on retrouve sur dockerhub.
-
-Nous nous sommes accordés pour choisir d'utiliser la configuration de base de donner par l'entreprise. La configuration comprends un conteneur de serveur web et une serveur de base de données mariadb.
-
-Pour suivre le cahier des charges, il nous faut un script unique pour installer la solution d'ERP. Nous avont donc créer un script `install.sh`.
-
-Ce script peut installer les dépendance necessaire à la mise en place de l'ERP. Une fois mis en place, le dolibarr possède les identifiants de base `admin admin`.
-
-Ensuite nous nous sommes dirigé vers la sauvergarde de la base de données. Pour faire une sauvgarde en dump, nous avons créé un script `backup.sh` qui sauvegarde un fichier sql de la database
-
-Il a donc fallut un programme pour importer la sauvegarde de la base de données. Pour ça nous avont créé le script `import_sql.sh`
-
+## Set up 
+We carried out research work on the dolibarrr docker image which can be found on dockerhub. 
+We agreed to choose to use the basic configuration provided by the company. The configuration includes a web server container and a mariadb database server. 
+To follow the specifications, we need a unique script to install the ERP solution. We therefore created an `install.sh` script. 
+This script can install the dependencies necessary for the implementation of the ERP. Once set up, the dolibarr has the basic identifiers `admin admin`.
+Next we moved on to backing up the database. To do a dump backup, we created a `backup.sh` script which saves an SQL file from the database.
+He therefore Required a program to import the database backup. For this we created the script `import_sql.sh`

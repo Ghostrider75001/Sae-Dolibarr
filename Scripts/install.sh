@@ -1,11 +1,6 @@
 #!/bin/bash
 
 # Variables
-DB_ROOT_PASSWORD="root"
-DB_NAME="dolibarr"
-DB_USER="dolibarr_user"
-DB_PASSWORD="root"
-DOLIBARR_VERSION="latest" # Remplacez par la dernière version stable si nécessaire
 DOCKER_COMPOSE_FILE="docker-compose.yml"
 
 # Mise à jour du système
@@ -39,44 +34,36 @@ fi
 
 # Création du fichier docker-compose.yml
 cat <<EOL > $DOCKER_COMPOSE_FILE
-version: '3.8'
-
 services:
-  database:
-    image: mysql:latest
-    networks:
-      - dolibarr_network
-    environment:
-      MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
-      MYSQL_DATABASE: $DB_NAME
-      MYSQL_USER: $DB_USER
-      MYSQL_PASSWORD: $DB_PASSWORD
-    volumes:
-      - database_data:/var/lib/mysql
+    mariadb:
+        image: mariadb:latest
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+            MYSQL_DATABASE: ${MYSQL_DATABASE:-dolidb}
+            MYSQL_USER: ${MYSQL_USER:-dolidbuser}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD:-dolidbpass}
+        container_name: mariadb
 
-  dolibarr:
-    image: dolibarr/dolibarr:$DOLIBARR_VERSION
-    networks:
-      - dolibarr_network
-    ports:
-      - "8080:80"
-    depends_on:
-      - database
-    environment:
-      DB_HOST: database
-      DB_NAME: $DB_NAME
-      DB_USER: $DB_USER
-      DB_PASSWORD: $DB_PASSWORD
-    volumes:
-      - dolibarr_data:/var/www/html
+    web:
+        image: dolibarr/dolibarr:latest
+        environment:
+            WWW_USER_ID: ${WWW_USER_ID:-1000}
+            WWW_GROUP_ID: ${WWW_GROUP_ID:-1000}
+            DOLI_DB_HOST: ${DOLI_DB_HOST:-mariadb}
+            DOLI_DB_NAME: ${DOLI_DB_NAME:-dolidb}
+            DOLI_DB_USER: ${DOLI_DB_USER:-dolidbuser}
+            DOLI_DB_PASSWORD: ${DOLI_DB_PASSWORD:-dolidbpass}
+            DOLI_URL_ROOT: "${DOLI_URL_ROOT:-http://0.0.0.0}"
+            DOLI_ADMIN_LOGIN: "${DOLI_ADMIN_LOGIN:-admin}"
+            DOLI_ADMIN_PASSWORD: "${DOLI_ADMIN_PASSWORD:-admin}"
+            DOLI_CRON: ${DOLI_CRON:-0}
+            DOLI_INIT_DEMO: ${DOLI_INIT_DEMO:-0}
+            DOLI_COMPANY_NAME: ${DOLI_COMPANY_NAME:-MyBigCompany}
 
-networks:
-  dolibarr_network:
-    driver: bridge
-
-volumes:
-  database_data:
-  dolibarr_data:
+        ports:
+            - "80:80"
+        links:
+            - mariadb
 EOL
 
 # Lancement de Docker Compose
@@ -88,4 +75,4 @@ echo "Vérification du statut des conteneurs..."
 docker compose ps
 
 echo "Installation de Dolibarr et du SGBD terminée."
-echo "Dolibarr est accessible à l'adresse http://localhost:8080"
+echo "Dolibarr est accessible à l'adresse http://localhost:80"

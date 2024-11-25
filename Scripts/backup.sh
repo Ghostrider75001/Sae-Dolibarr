@@ -1,22 +1,23 @@
 #!/bin/bash
 
-# Nom des volumes
-DB_VOLUME="db_data"
-DOLIBARR_VOLUME="dolibarr_data"
+# Variables
+DB_CONTAINER_NAME="mariadb"
+DB_USER="dolidbuser"
+DB_PASSWORD="dolidbpass"
+DB_NAME="dolidb"
+HOST_DUMP_DIR="."
+DUMP_FILE="${DB_NAME}_$(date +%F).sql"
 
-# Date pour le nom du fichier de sauvegarde
-DATE=$(date +%Y%m%d_%H%M)
+# Cree le dossier si il n'existe pas
+mkdir -p $HOST_DUMP_DIR
 
-# Sauvegarde de la base de données
-echo "Sauvegarde de la base de données..."
-docker run --rm --volumes-from $DB_VOLUME -v $(pwd):/backup alpine \
-  sh -c "mysqldump -u root -p'$DB_ROOT_PASSWORD $DB_NAME' > /backup/db_backup_$DATE.sql"
+# Dump la db dans la machine hote
+docker exec -i $DB_CONTAINER_NAME \
+    mariadb-dump -u $DB_USER -p$DB_PASSWORD $DB_NAME > "$HOST_DUMP_DIR/$DUMP_FILE"
 
-echo " "
-
-# Sauvegarde des fichiers Dolibarr
-echo "Sauvegarde des fichiers Dolibarr..."
-docker run --rm --volumes-from $DOLIBARR_VOLUME -v $(pwd):/backup alpine \
-  sh -c "tar cvzf /backup/dolibarr_backup_$DATE.tar.gz /var/www/html"
-
-echo "Sauvegarde terminée."
+if [ $? -eq 0 ]; then
+  echo "Database dump completed successfully: $HOST_DUMP_DIR/$DUMP_FILE"
+else
+  echo "Error: Failed to export SQL dump."
+  exit 1
+fi

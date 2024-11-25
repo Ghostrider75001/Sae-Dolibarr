@@ -1,0 +1,4 @@
+CEO
+Direction
+Secretaire
+Employé

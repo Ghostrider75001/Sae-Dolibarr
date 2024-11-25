@@ -13,5 +13,5 @@ sudo chmod +x import_csv.sh
 sudo ./import_csv.sh
 ```
 ###### Remarques
-* Assurez-vous que MySQL est en cours d'exécution et que les fichiers clients.csv et fournisseurs.csv existent dans le même répertoire que le script.
+* Assurez-vous que MySQL est en cours d'exécution et que le fichier groupe.csv existe dans le même répertoire que le script.
 * Modifiez les paramètres de connexion à la base de données si nécessaire.

@@ -1,6 +1,6 @@
 # import de donées csv dans SGBD
 
-Ce script est utilisé pour importer des données à partir des fichiers CSV dans la base de données Dolibarr.
+Ce script est utilisé pour importer des données à partir de fichier CSV dans la base de données Dolibarr.
 
 #### Instructions d'utilisation
 * Rendez le script exécutable :
@@ -8,7 +8,7 @@ Ce script est utilisé pour importer des données à partir des fichiers CSV dan
 sudo chmod +x import_csv.sh
 ```
 
-* Exécutez le script (assurez-vous que les fichiers CSV sont dans le même répertoire) :
+* Exécutez le script (assurez-vous que le fichier CSV soit dans le même répertoire) :
 ```
 sudo ./import_csv.sh
 ```

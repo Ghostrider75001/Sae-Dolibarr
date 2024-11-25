@@ -1,27 +1,33 @@
 #!/bin/bash
 
 # Variables
-DB_HOST="mariadb"
-DB_USER="mariadbuser"
-DB_PASSWORD="mariadbpass"
+DB_CONTAINER_NAME="mariadb"
 DB_NAME="dolidb"
+DB_TABE="llx_usergroup"
+CSV_FILE="./group.csv"
+MYSQL_USER="dolidbuser"
+MYSQL_PASSWORD="dolidbpass"
 
-# Chemin vers le fichier CSV
-GROUP_CSV="./clients.csv"
-
-# Importation des clients
-if [ -f "$GROUP_CSV" ]; then
-    echo "Importation des clients à partir de $GROUP_CSV..."
-    mariadb -h $DB_HOST -u $DB_USER -p'$DB_PASSWORD' $DB_NAME -e "
-    LOAD DATA LOCAL INFILE '$GROUP_CSV'
-    INTO TABLE llx_usergroup
-    FIELDS TERMINATED BY ','
-    LINES TERMINATED BY '\n'
-    IGNORE 1 ROWS
-    (rowid,nom,entity,datec,tms,note,model_pdf)
-    "
-else
-    echo "Fichier $GROUP_CSV non trouvé. Veuiller le déplacer dans le même repertoire du script ou en crée un avec un format (nom, email, telephone)"
+# Check fichier CSV
+if [ ! -f "$CSV_FILE" ]; then
+  echo "Error: CSV file not found at $CSV_FILE"
+  exit 1
 fi
 
-echo "Importation terminée."
+# Check docker
+if ! docker ps --format '{{.Names}}' | grep -q "$DB_CONTAINER_NAME"; then
+  echo "Error: Docker container $DB_CONTAINER_NAME is not running."
+  exit 1
+fi
+
+# Importe le CSV
+docker exec -i "$DB_CONTAINER_NAME" \
+  mariadb -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$DB_NAME" "$DB_TABE" < "$CSV_FILE"
+
+# Check l'import
+if [ $? -eq 0 ]; then
+  echo "CSV imported successfully into the $DB_NAME database."
+else
+  echo "Error: Failed to import CSV dump."
+  exit 1
+fi

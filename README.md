@@ -22,3 +22,18 @@ Ce projet consiste à migrer d'une solution ERP/CRM externalisée vers une solut
 ---
 
 Ce fichier README.md contient les informations essentielles concernant le projet d'installation d'un ERP/CRM avec Dolibarr.
+
+## Mise en place
+
+Nous avons réaliser un travail de recherche sur l'image docker de dolibarrr que l'on retrouve sur dockerhub.
+
+Nous nous sommes accordés pour choisir d'utiliser la configuration de base de donner par l'entreprise. La configuration comprends un conteneur de serveur web et une serveur de base de données mariadb.
+
+Pour suivre le cahier des charges, il nous faut un script unique pour installer la solution d'ERP. Nous avont donc créer un script `install.sh`.
+
+Ce script peut installer les dépendance necessaire à la mise en place de l'ERP. Une fois mis en place, le dolibarr possède les identifiants de base `admin admin`.
+
+Ensuite nous nous sommes dirigé vers la sauvergarde de la base de données. Pour faire une sauvgarde en dump, nous avons créé un script `backup.sh` qui sauvegarde un fichier sql de la database
+
+Il a donc fallut un programme pour importer la sauvegarde de la base de données. Pour ça nous avont créé le script `import_sql.sh`
+

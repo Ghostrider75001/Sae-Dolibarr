@@ -19,6 +19,6 @@ def convert_to_csv(input_file_path, output_file_path):
         print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
-    input_file_path = "Scripts/groupe.txt"
-    output_file_path = "Scripts/groupe.csv"
+    input_file_path = "Data/groupe.txt"
+    output_file_path = "Data/llx_usergroup.csv"
     convert_to_csv(input_file_path, output_file_path)

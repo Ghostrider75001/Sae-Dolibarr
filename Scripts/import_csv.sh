@@ -4,7 +4,7 @@
 DB_CONTAINER_NAME="mariadb"
 DB_NAME="dolidb"
 DB_TABE="llx_usergroup"
-CSV_FILE="./group.csv"
+CSV_FILE="../Data/llx_usergroup.csv"
 MYSQL_USER="dolidbuser"
 MYSQL_PASSWORD="dolidbpass"
 
@@ -20,14 +20,15 @@ if ! docker ps --format '{{.Names}}' | grep -q "$DB_CONTAINER_NAME"; then
   exit 1
 fi
 
+# Docker cp
+docker cp "$CSV_FILE" "$DB_CONTAINER_NAME:/tmp/llx_usergroup.csv"
+
 # Importe le CSV
 docker exec -i "$DB_CONTAINER_NAME" \
-  mariadb -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$DB_NAME" "$DB_TABE" < "$CSV_FILE"
+  mariadb -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$DB_NAME" <<EOF
+USE $DB_NAME;
+SET FOREIGN_KEY_CHECKS=0;
+SOURCE /tmp/llx_usergroup.csv;
+SET FOREIGN_KEY_CHECKS=1;
+EOF
 
-# Check l'import
-if [ $? -eq 0 ]; then
-  echo "CSV imported successfully into the $DB_NAME database."
-else
-  echo "Error: Failed to import CSV dump."
-  exit 1
-fi

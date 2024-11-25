@@ -2,3 +2,4 @@ CEO
 Direction
 Secretaire
 Employé
+Sudo

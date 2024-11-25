@@ -3,7 +3,7 @@
 # Variables
 DB_CONTAINER_NAME="mariadb"
 DB_NAME="dolidb"
-SQL_DUMP_FILE="./dolidb_2024-11-25.sql"
+SQL_DUMP_FILE="./backup/dolidb_2024-11-25.sql"
 MYSQL_USER="dolidbuser"
 MYSQL_PASSWORD="dolidbpass"
 

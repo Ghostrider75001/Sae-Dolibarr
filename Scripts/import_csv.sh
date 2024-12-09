@@ -23,12 +23,12 @@ fi
 # Docker cp
 docker cp "$CSV_FILE" "$DB_CONTAINER_NAME:/tmp/llx_usergroup.csv"
 
-# Importe le CSV
-docker exec -i "$DB_CONTAINER_NAME" \
-  mariadb -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$DB_NAME" <<EOF
-USE $DB_NAME;
-SET FOREIGN_KEY_CHECKS=0;
-SOURCE /tmp/llx_usergroup.csv;
+# Import CSV 
+docker exec -i "$DB_CONTAINER_NAME" mariadb -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$DB_NAME" <<EOF
+LOAD DATA INFILE '/tmp/llx_usergroup.csv'
+INTO TABLE $DB_TABLE
+FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
 SET FOREIGN_KEY_CHECKS=1;
 EOF
 
